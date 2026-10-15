@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1428">
 <title>Who believed in you?</title>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
 <script>window.__err=[];function renderErr(){var b=document.getElementById('diag');if(b&&__err.length){b.textContent='Page problem: '+__err.join(' | ');b.hidden=false}}
@@ -35,32 +35,37 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid #c5cddb}bu
 .done .hand{font:2.4rem Caveat,cursive;color:#2a3a5c;margin:0}
 h3{font:600 1.1rem Fraunces,serif;margin:20px 0 4px}#s0 p{margin:0 0 8px;color:#3a4660;font-size:1rem}
 .sg{list-style:none;margin:6px 0 0;padding:4px;background:#fff;border:1px solid #d9dfea;border-radius:10px;box-shadow:0 10px 28px #0003;position:absolute;left:0;right:0;z-index:5}.sg li{padding:11px 12px;border-radius:8px;cursor:pointer;font-size:1.05rem}.sg li:hover{background:#fff3cf}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.card{animation:rise .5s ease both}@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.steps{display:flex;gap:6px;margin:0 0 20px}.steps i{width:28px;height:4px;border-radius:4px;background:#d9dfea}.steps i.on{background:var(--gold)}
+button:hover{filter:brightness(1.18)}button:active{transform:translateY(1px)}#begin{padding:14px 36px}
+.mark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px #f2c14e33;margin-right:12px}
+@media(max-width:520px){main{padding:26px 12px 60px}.card{padding:26px 20px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style></head><body>
 <div class="sky"></div><div class="stars"></div><div class="light"></div>
 <main><p id="diag" hidden></p><p class="org" id="org"></p>
 <div style="position:absolute;left:-9999px" aria-hidden="true"><input id="w" tabindex="-1" autocomplete="off"></div>
 <section class="card" id="s0"><h1>A letter for the teacher who believed in you</h1>
 <p>Every Teachers' Day, we thank teachers in speeches. This time, each of us writes one real letter, and our officers place it in a teacher's hands.</p>
-<h3>Why we watched this film</h3>
+<h3><span class="mark"></span>Why we watched this film</h3>
 <p>In Big World, Chunhe dreams of becoming a teacher while the people around him doubt he can. A dream like that survives because someone believes in it. Teachers do the same for us, often before we believe in ourselves.</p>
-<h3>Why a letter</h3>
+<h3><span class="mark"></span>Why a letter</h3>
 <p>Teachers' Day is for saying what we usually forget to say. A teacher can keep a letter for years.</p>
-<h3>What happens next</h3>
+<h3><span class="mark"></span>What happens next</h3>
 <p>You write to one teacher, which takes about five minutes. The officers print your letter exactly as you wrote it and deliver it by hand.</p>
 <div class="nav"><span></span><button id="begin">Begin</button></div></section>
-<section class="card" id="s1" hidden><h1>Who believed in you?</h1>
+<section class="card" id="s1" hidden><div class="steps" role="img" aria-label="Step 1 of 3"><i class="on"></i><i></i><i></i></div><h1>Who believed in you?</h1>
 <p class="lead">Think of a teacher who made your world a little bigger. You can simply type their first name.</p>
 <input type="text" id="t" maxlength="100" autocomplete="off" aria-label="Your teacher's first name" placeholder="Their first name, like Maria">
 <div class="hint">Type your teacher's first name. A first name is enough. If another teacher shares that first name, add their last name too.</div>
 <div class="err" id="e1" role="alert"></div><div class="nav"><button class="ghost" data-b="0">Back</button><button id="n1">Continue</button></div></section>
-<section class="card" id="s2" hidden><h1>Tell <span class="nm"></span> what they did.</h1>
+<section class="card" id="s2" hidden><div class="steps" role="img" aria-label="Step 2 of 3"><i class="on"></i><i class="on"></i><i></i></div><h1>Tell <span class="nm"></span> what they did.</h1>
 <p class="lead">Start with a moment you felt small. Then say what they did that made your world bigger. Tap a line to begin.</p>
 <div class="chips"><button class="chip">I still remember when you…</button><button class="chip">You made me feel…</button><button class="chip">I never told you that…</button></div>
 <textarea id="m" maxlength="1200" aria-label="Your letter"></textarea>
 <div class="hint"><span id="n">0</span>/1200. We add "Dear <span class="nm"></span>," for you.</div>
 <div class="err" id="e2" role="alert"></div><div class="nav"><button class="ghost" data-b="1">Back</button><button id="n2">Continue</button></div></section>
-<section class="card" id="s3" hidden><h1>Sign your letter.</h1>
+<section class="card" id="s3" hidden><div class="steps" role="img" aria-label="Step 3 of 3"><i class="on"></i><i class="on"></i><i class="on"></i></div><h1>Sign your letter.</h1>
 <p class="lead">Your teacher will read your words exactly as you wrote them.</p>
 <input type="text" id="f" class="f" maxlength="100" autocomplete="name" aria-label="Your name" placeholder="Your name, or leave blank to stay anonymous">
 <label class="chk"><input type="checkbox" id="ok"><span>I understand the officers will read and print my letter and give it to my teacher.</span></label>
@@ -72,18 +77,19 @@ const C=window.CONFIG||{},$=i=>document.getElementById(i),R=document.documentEle
 $('org').textContent=[C.SOCIETY_NAME,C.EVENT].filter(Boolean).join(' · ');
 const name=()=>{const v=$('t').value.trim().replace(/\s+/g,' ');return(C.TEACHERS||[]).find(x=>x.toLowerCase()===v.toLowerCase())||v};
 function go(n){[0,1,2,3,4].forEach(i=>$('s'+i).hidden=i!==n);document.querySelectorAll('.nm').forEach(e=>e.textContent=name()||'your teacher');
- R.style.setProperty('--p',[.05,.15,.4,.8,1][n]);document.body.classList.toggle('sent',n===4);scrollTo(0,0)}
+ R.style.setProperty('--p',[.05,.15,.4,.8,1][n]);document.body.classList.toggle('sent',n===4);scrollTo(0,0);setTimeout(()=>{const f=document.querySelector('#s'+n+' input[type=text],#s'+n+' textarea');if(f&&n>0&&n<4)f.focus()},60)}
 $('begin').onclick=()=>go(1);
 $('n1').onclick=()=>name().length<2?$('e1').textContent="Type your teacher's name.":(($('e1').textContent=''),go(2),$('m').focus());
-$('m').oninput=()=>{$('n').textContent=$('m').value.length;R.style.setProperty('--p',.4+Math.min($('m').value.length/700,1)*.3)};
+$('t').addEventListener('keydown',e=>{if(e.key==='Enter')$('n1').click()});
+$('m').oninput=()=>{$('n').style.color=$('m').value.length>1100?'#b3261e':'';$('n').textContent=$('m').value.length;R.style.setProperty('--p',.4+Math.min($('m').value.length/700,1)*.3)};
 document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{const m=$('m');m.value=(m.value?m.value+' ':'')+c.textContent+' ';m.focus();m.oninput()});
 $('n2').onclick=()=>$('m').value.trim().length<10?$('e2').textContent='Write a few more words so they can feel it.':(($('e2').textContent=''),go(3));
 document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>go(+b.dataset.b));
 $('send').onclick=async()=>{const e=$('e3');e.textContent='';if($('w').value)return;
  if(!$('ok').checked)return e.textContent='Tick the box to confirm.';
  if(!db)return e.textContent='The page could not connect to the database. Refresh and try again.';
- $('send').disabled=true;
+ $('send').disabled=true;$('send').textContent='Sending…';
  const {error}=await db.from('letters').insert({teacher_name:name(),message:$('m').value.trim(),sender_name:$('f').value.trim()||null});
- $('send').disabled=false;if(error)return e.textContent='Your letter did not send. Check your connection and try again.';go(4)};
+ $('send').disabled=false;$('send').textContent='Send my letter';if(error)return e.textContent='Your letter did not send. Check your connection and try again.';go(4)};
 $('again').onclick=()=>{['t','m','f'].forEach(i=>$(i).value='');$('ok').checked=false;$('n').textContent=0;go(1)};
 </script></body></html>
