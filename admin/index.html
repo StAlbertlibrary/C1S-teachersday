@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Letterbox</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="config.js"></script>
+<style>
+:root{--navy:#0e1a33;--bg:#eef1f5;--ink:#17233b;--mute:#5f6b7f;--line:#d9dfea;--gold:#f2c14e;--green:#2f6b5a;--red:#b3261e}
+[hidden]{display:none!important}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,sans-serif}
+h1,h2{font-family:Fraunces,Georgia,serif;margin:0}
+input,select{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff;color:var(--ink)}
+button{border:0;border-radius:999px;padding:9px 16px;font:600 .9rem system-ui;cursor:pointer;background:var(--navy);color:#fff}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}button.danger{color:var(--red)}
+button.gold{background:var(--gold);color:var(--navy)}button.link{background:none;color:#cbd5e8;padding:4px 0;font-weight:500;text-align:left}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}.mute{color:var(--mute);font-size:.875rem}.err{color:var(--red);min-height:1.4em;margin:8px 0}
+.authwrap{min-height:100vh;display:grid;place-items:center;padding:16px;background:linear-gradient(180deg,#0b1428,#1d3a63 60%,#7391b6)}
+.card{background:#fffdf9;border-radius:14px;padding:32px;width:100%;max-width:380px;display:grid;gap:10px}.card h1{font-size:1.9rem}.card button{width:100%;padding:12px}
+.card .link{color:var(--green);text-decoration:underline;text-align:center}
+.shell{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+aside{background:var(--navy);color:#fff;padding:22px 16px;display:flex;flex-direction:column;gap:12px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand b{font:600 1.3rem Fraunces,serif;display:block}.brand span{color:#aebbd4;font-size:.85rem}
+.stat{color:#cbd5e8;font-size:.9rem}aside input{background:#ffffff14;border-color:#ffffff22;color:#fff}
+aside label{font-size:.85rem;color:#cbd5e8;display:flex;gap:6px;align-items:center}
+#tl{display:grid;gap:6px;flex:1;align-content:start}
+.tb{display:block;width:100%;text-align:left;background:#ffffff0d;border-radius:10px;padding:10px 12px;color:#fff}.tb.on{background:#ffffff26;box-shadow:inset 3px 0 var(--gold)}
+.tb small{display:flex;justify-content:space-between;color:#aebbd4;font-weight:400;margin-bottom:5px}
+.bar{height:4px;background:#ffffff22;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gold)}
+.foot{display:grid;gap:6px;border-top:1px solid #ffffff22;padding-top:12px}
+main{padding:30px 28px 70px;max-width:820px;width:100%}
+.th{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:6px}.th h1{font-size:2.2rem;line-height:1.15}
+.pg{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 24px}.pg i{display:block;height:100%;background:var(--green)}
+.lt{background:#fffdf9;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:14px;box-shadow:0 2px 0 #0001}
+.lt.done{opacity:.7}.bd{white-space:pre-wrap;margin:0 0 14px;font:1.1rem/1.75 Fraunces,Georgia,serif}
+.sig{font:1.7rem Caveat,cursive;color:#2a3a5c;margin:0 0 10px}
+.lf{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}.lf .mute{margin-right:auto}.dl{display:flex;gap:6px;align-items:center;font-weight:600}
+.empty{text-align:center;color:var(--mute);padding:70px 0;font:1.2rem Fraunces,serif}
+#team ul{list-style:none;padding:0;margin:14px 0}#team li{display:flex;justify-content:space-between;align-items:center;background:#fffdf9;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px}
+.row{display:flex;gap:10px}.row input{flex:1}
+@media(max-width:760px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}main{padding:20px 14px}}
+/* keepsake print */
+@page{size:A4;margin:0}#sheets{display:none}
+@media print{body>*:not(#sheets){display:none!important}body{background:#fff}#sheets{display:block}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet{position:relative;width:210mm;height:296mm;padding:28mm 26mm;display:flex;flex-direction:column;break-after:page;font:13pt/1.85 Fraunces,Georgia,serif;color:#17233b}.sheet:last-child{break-after:auto}
+.sheet::before{content:"";position:absolute;inset:9mm;border:.3mm solid #c5cddb}
+.sheet .org{font-size:10pt;color:#5f6b7f;display:flex;justify-content:space-between;align-items:center}.sheet .org span:first-child{display:flex;gap:2.5mm;align-items:center}.sheet svg.mk{width:7mm;height:7mm}
+.sheet h2{font:500 34pt/1.2 Caveat,cursive;color:#2a3a5c;margin:12mm 0 5mm}.sheet .body{white-space:pre-wrap;flex:1;border-left:1.2mm solid #f2c14e;padding:1mm 0 1mm 7mm;max-width:145mm;font-size:13.5pt;line-height:1.9}
+.sheet .close{font:22pt/1.2 Caveat,cursive;color:#5f6b7f;margin:8mm 0 0}.sheet .hand{font:34pt/1.2 Caveat,cursive;color:#2a3a5c;margin:1mm 0 0}.rule{width:30mm;height:.8mm;background:#f2c14e;margin:0 auto 7mm}.sheet .foot{display:flex;justify-content:space-between;align-items:center;gap:6mm}.sheet .foot{font-size:9pt;color:#5f6b7f;border-top:.2mm solid #c5cddb;padding-top:3mm;margin-top:8mm}
+.cover,.slip{justify-content:center;text-align:center;align-items:center}.cover h1{font:600 40pt/1.15 Fraunces,serif;margin:3mm 0 6mm}
+.cover p,.slip p{margin:0}.lead{font-size:14pt;color:#5f6b7f}.honest{font-style:italic;max-width:115mm;margin-top:8mm!important}.motto{font:26pt Caveat,cursive;color:#2a3a5c;margin-top:12mm!important}
+svg.sky{width:150mm;height:56mm;margin:8mm 0}.slip .line{width:120mm;border-bottom:.3mm solid #17233b;margin:14mm 0 2mm}}
+</style></head><body>
+<div id="auth" class="authwrap"><div class="card"><h1 id="at">Letterbox</h1><p class="mute">Officers sign in here to read, deliver and export the letters.</p>
+<input id="em" type="email" placeholder="Email" autocomplete="username" aria-label="Email"><input id="pw" type="password" placeholder="Password (8+ characters)" autocomplete="current-password" aria-label="Password">
+<div class="err" id="err" role="alert"></div><button id="go">Sign in</button><button class="link" id="sw">Invited as a new officer? Create your account</button></div></div>
+<div id="app" class="shell" hidden>
+<aside><div class="brand"><b id="org"></b><span id="ev"></span></div><div class="stat" id="stats"></div>
+<input id="q" placeholder="Search letters" aria-label="Search"><label><input type="checkbox" id="hd"> Hide delivered letters</label>
+<nav id="tl" aria-label="Teachers"></nav>
+<div class="foot"><button class="gold" id="all">Export everything</button><button class="link" id="tm">Manage officers</button><span class="mute" id="who"></span><button class="link" id="out">Sign out</button></div></aside>
+<main><section id="letters"><div id="th"></div><div id="list"></div></section>
+<section id="team" hidden><h1>Officers</h1><p class="mute">Everyone listed here can read every letter. To add someone, enter their email. They then open this site, choose "Create your account", and use that same email.</p>
+<ul id="alist"></ul><div class="row"><input id="ne" type="email" placeholder="New officer's email" aria-label="New officer's email"><button id="add">Add officer</button></div><div class="err" id="terr" role="alert"></div><button class="ghost" id="bk">Back to letters</button></section></main></div>
+<div id="sheets"></div>
+<script>
+const C=CONFIG,db=supabase.createClient(C.SUPABASE_URL,C.SUPABASE_ANON_KEY),$=s=>document.querySelector(s);
+let rows=[],admins=[],me='',signup=false,sel='';
+const key=n=>n.trim().toLowerCase().replace(/\s+/g,' '),fmt=d=>new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const btn=(x,c,f)=>{const b=el('button',c,x);b.onclick=f;return b};
+const view=v=>{$('#auth').hidden=v!=='auth';$('#app').hidden=v!=='app'},msg=t=>$('#err').textContent=t,tab=t=>{$('#letters').hidden=t!=='letters';$('#team').hidden=t!=='team'};
+$('#org').textContent=C.SOCIETY_NAME;$('#ev').textContent=C.EVENT+' letterbox';
+async function boot(){
+ const {data}=await db.auth.getSession();if(!data.session)return view('auth');
+ me=data.session.user.email.toLowerCase();
+ admins=((await db.from('admins').select('email')).data||[]).map(x=>x.email).sort();
+ if(!admins.includes(me)){await db.auth.signOut();view('auth');return msg('That email is not on the officer list. Ask an officer to add you.')}
+ $('#who').textContent=me;
+ rows=((await db.from('letters').select('*')).data||[]).sort((a,b)=>a.created_at.localeCompare(b.created_at));
+ view('app');draw();team()}
+$('#go').onclick=async()=>{msg('');const e=$('#em').value.trim().toLowerCase(),p=$('#pw').value;
+ if(!e||p.length<8)return msg('Enter your email and a password of at least 8 characters.');
+ const r=signup?await db.auth.signUp({email:e,password:p}):await db.auth.signInWithPassword({email:e,password:p});
+ if(r.error)return msg(signup?'Could not create the account. Try signing in instead.':'Wrong email or password.');
+ if(signup&&!r.data?.session)return msg('Account created. Confirm it from the email we sent, then sign in.');boot()};
+$('#sw').onclick=()=>{signup=!signup;msg('');$('#go').textContent=signup?'Create account':'Sign in';$('#sw').textContent=signup?'Already have an account? Sign in':'Invited as a new officer? Create your account'};
+$('#out').onclick=async()=>{await db.auth.signOut();rows=[];view('auth')};
+$('#tm').onclick=()=>tab('team');$('#bk').onclick=()=>tab('letters');$('#q').oninput=$('#hd').onchange=draw;
+function groups(){const q=$('#q').value.toLowerCase(),h=$('#hd').checked,m=new Map();
+ rows.filter(r=>(!q||(r.teacher_name+' '+r.message+' '+(r.sender_name||'')).toLowerCase().includes(q))&&!(h&&r.delivered_at))
+ .forEach(r=>{const k=key(r.teacher_name);if(!m.has(k))m.set(k,{k,name:r.teacher_name.trim(),items:[]});m.get(k).items.push(r)});
+ return[...m.values()].sort((a,b)=>a.name.localeCompare(b.name))}
+function draw(){
+ const g=groups(),d=rows.filter(r=>r.delivered_at).length;
+ $('#stats').textContent=rows.length+' letters · '+new Set(rows.map(r=>key(r.teacher_name))).size+' teachers · '+d+' delivered';
+ if(!g.some(x=>x.k===sel))sel=g[0]?.k||'';
+ const T=$('#tl');T.replaceChildren();
+ g.forEach(x=>{const n=x.items.filter(r=>r.delivered_at).length,b=el('button','tb'+(x.k===sel?' on':'')),s=el('small');
+  s.append(el('span',0,n+' of '+x.items.length+' delivered'));const bar=el('div','bar'),i=el('i');i.style.width=(n/x.items.length*100)+'%';bar.append(i);
+  b.append(el('div',0,x.name),s,bar);b.onclick=()=>{sel=x.k;tab('letters');draw()};T.append(b)});
+ const cur=g.find(x=>x.k===sel),L=$('#list'),H=$('#th');L.replaceChildren();H.replaceChildren();
+ if(!cur){L.append(el('p','empty',rows.length?'No letters match.':'No letters yet. They will arrive here as students send them.'));return}
+ const all=rows.filter(r=>key(r.teacher_name)===cur.k),n=all.filter(r=>r.delivered_at).length,top=el('div','th'),t=el('div');
+ t.append(el('h1',0,cur.name),el('span','mute',all.length+(all.length===1?' student wrote':' students wrote')+' to them · '+n+' delivered'));
+ top.append(t,btn('Export keepsake PDF','',()=>exportSheets([{name:cur.name,items:all}],true,'Letters for '+cur.name)));
+ const pg=el('div','pg'),pi=el('i');pi.style.width=(n/all.length*100)+'%';pg.append(pi);H.append(top,pg);
+ cur.items.forEach(r=>{const c=el('article','lt'+(r.delivered_at?' done':'')),f=el('div','lf'),ck=el('label','dl'),cb=el('input');cb.type='checkbox';cb.checked=!!r.delivered_at;
+  cb.onchange=async()=>{r.delivered_at=cb.checked?new Date().toISOString():null;await db.from('letters').update({delivered_at:r.delivered_at}).eq('id',r.id);draw()};
+  ck.append(cb,'Delivered');
+  f.append(el('span','mute',fmt(r.created_at)),ck,btn('Export','ghost',()=>exportSheets([{name:cur.name,items:[r]}],false,'Letter for '+cur.name)),
+   btn('Delete','ghost danger',async()=>{if(!confirm('Delete this letter for good?'))return;await db.from('letters').delete().eq('id',r.id);rows=rows.filter(z=>z.id!==r.id);draw()}));
+  c.append(el('p','bd',r.message),el('p','sig',r.sender_name||'A grateful student'),f);L.append(c)})}
+$('#all').onclick=()=>{const m=new Map();rows.forEach(r=>{const k=key(r.teacher_name);if(!m.has(k))m.set(k,{name:r.teacher_name.trim(),items:[]});m.get(k).items.push(r)});
+ exportSheets([...m.values()].sort((a,b)=>a.name.localeCompare(b.name)),true,'All letters')};
+let gid=0;
+function mark(){const NS='http://www.w3.org/2000/svg',s=document.createElementNS(NS,'svg');s.setAttribute('viewBox','0 0 20 20');s.setAttribute('class','mk');
+ [[9,.25],[3.6,1]].forEach(([r,o])=>{const c=document.createElementNS(NS,'circle');for(const[k,v]of Object.entries({cx:10,cy:10,r,fill:'#f2c14e',opacity:o}))c.setAttribute(k,v);s.append(c)});return s}
+function sky(n){const NS='http://www.w3.org/2000/svg',mk=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||s).append(e);return e},id='g'+(++gid);
+ const s=document.createElementNS(NS,'svg');s.setAttribute('viewBox','0 0 400 150');s.setAttribute('class','sky');
+ const df=mk('defs',{}),lg=mk('linearGradient',{id,x1:0,y1:0,x2:0,y2:1},df);mk('stop',{offset:0,'stop-color':'#0b1428'},lg);mk('stop',{offset:1,'stop-color':'#2d5384'},lg);
+ mk('rect',{width:400,height:150,rx:8,fill:'url(#'+id+')'});let z=n*7919+13;const r=()=>(z=(z*1664525+1013904223)>>>0)/4294967296;
+ for(let i=0;i<45;i++)mk('circle',{cx:r()*400,cy:r()*150,r:.7,fill:'#fff',opacity:.5});
+ for(let i=0;i<n;i++){const x=20+r()*360,y=18+r()*114;mk('circle',{cx:x,cy:y,r:8,fill:'#f2c14e',opacity:.22});mk('circle',{cx:x,cy:y,r:3.4,fill:'#ffe9a8'})}return s}
+function exportSheets(gs,cover,title){
+ const box=$('#sheets');box.replaceChildren();if(!gs.length)return;
+ gs.forEach(g=>{const n=g.items.length;
+  if(cover){const s=el('section','sheet cover');
+   s.append(el('p','mute',C.SOCIETY_NAME+' · '+C.EVENT),sky(n),el('p','lead','Letters for'),el('h1',0,g.name),el('div','rule'),
+    el('p','lead',n+(n===1?' student wrote':' students wrote')+' to you. Each light above is one of them.'),
+    el('p','honest','Every word was written by a student. Nothing has been edited or added.'),el('p','motto','One small letter. One big thank you.'));box.append(s)}
+  g.items.forEach(r=>{const s=el('section','sheet'),o=el('div','org');const sp=el('span');sp.append(mark(),C.SOCIETY_NAME);o.append(sp,el('span',0,fmt(r.created_at)));
+   s.append(o,el('h2',0,'Dear '+g.name+','),el('div','body',r.message),el('p','close','With gratitude,'),el('p','hand',r.sender_name||'A grateful student'),
+    (()=>{const f=el('div','foot');f.append(el('span',0,'Written by '+(r.sender_name||'a student who chose to stay anonymous')+' on '+fmt(r.created_at)+'. Printed exactly as written.'),mark());return f})());box.append(s)});
+  if(cover){const s=el('section','sheet slip');s.append(el('p','lead','Delivered by hand to '+g.name),el('div','line'),el('p','mute','Officer name and date'),el('p','motto','Thank you for believing in us.'));box.append(s)}});
+ const t=document.title;document.title=title;addEventListener('afterprint',()=>{document.title=t;box.replaceChildren()},{once:true});print()}
+function team(){const U=$('#alist');U.replaceChildren();
+ admins.forEach(e=>{const li=el('li');li.append(el('span',0,e+(e===me?' (you)':'')));
+  if(e!==me)li.append(btn('Remove','ghost danger',async()=>{if(!confirm('Remove '+e+' as an officer?'))return;await db.from('admins').delete().eq('email',e);admins=admins.filter(x=>x!==e);team()}));U.append(li)})}
+$('#add').onclick=async()=>{const e=$('#ne').value.trim().toLowerCase(),t=$('#terr');t.textContent='';
+ if(!/^\S+@\S+\.\S+$/.test(e))return t.textContent='Enter a valid email.';
+ if(admins.includes(e))return t.textContent='Already an officer.';
+ const r=await db.from('admins').insert({email:e});if(r.error)return t.textContent='Could not add. Try again.';
+ admins.push(e);admins.sort();$('#ne').value='';team()};
+boot();
+</script></body></html>
